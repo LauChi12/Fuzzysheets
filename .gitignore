@@ -211,3 +211,4 @@ client_secrets.json
 token.json
 __pycache__/
 client_secrets.json
+*.pyc
