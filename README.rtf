@@ -1,0 +1,123 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Bold;\f1\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw12240\paperh20160\margl1440\margr1440\vieww12420\viewh9300\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\b\fs24 \cf0 Fuzzy Sheet Filter\
+ 
+\f1\b0 \
+A small Python tool to filter Google Sheets data using fuzzy string matching. \
+\
+\'97\
+
+\f0\b Overview\
+
+\f1\b0 \
+This tool connects to a Google Sheet, applies fuzzy matching to a target column, and outputs the matching rows to a new sheet. It features: \
+\
+- Graphical user interface (Tkinter)\
+- Real-time status updates and log messages\
+- Fuzzy matching with adjustable similarity threshold\
+- Automatic creation of a results sheet in Google Sheets\
+\
+\'97\
+
+\f0\b Technical Notes\
+
+\f1\b0 \
+This project was developed to explore and demonstrate: \
+\
+- Fuzzy string matching algorithms and threshold tuning. \
+- Google Sheets API Integration and handling OAuth authentication securely\
+- GUI design with Tkinter, including responsive threading for operations\
+- Software packaging and distribution to ensure non-technical users can run Python tools without installing dependencies. \
+\
+This project was developed as a response to a common issue in data collection in my workplace: text input boxes make it difficult to group identical entries due to differences in nomenclature, spelling, and punctuation.  \
+\'97\
+
+\f0\b Fuzzy Matching Logic\
+
+\f1\b0 Algorithm Used: Levenshtein Distance(via Python/Rapidfuzz)\
+Purpose/Reasoning: Many issues with data collected from text input sources (ex: addresses) stem from misplaced punctuation (Rd. vs Rd) , slight spelling errors (Cypriss vs. Cypress) , and nomenclature differences (Drive vs Dr). I decided a fuzzy matching logic would be a good way to identify similar terms that mean the same thing. \
+\
+Process: \
+	1) Normalize input strings (lowercase, remove punctuation). \
+	2) Compute Levenshtein distance between input and all entries in the identified column.\
+	3) Convert the distance to a similarity score (0-100).\
+	4) Return all rows with scores above the threshold. \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+\cf0 Example: \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 Search String: \'93\
+In-Text String:  \'93\
+Possible Improvements: For frequent adjacent-letter swaps, using the Damerau-Levenshtein Distance would increase the accuracy of the matching logic. \
+\'97\
+
+\f0\b Features\
+\
+
+\f1\b0 - Input Spreadsheet URL or name\
+- Specify the target column, search term, and similarity threshold (0-100)\
+- Automatic deletion of previous results sheet, if any.\
+- Runs in a separate thread to keep the UI responsive. \
+- Color-coded log for progress and errors\
+\
+\
+\'97\
+
+\f0\b How to Run\
+\
+Windows\
+1) 
+\f1\b0 Download \'91FuzzySheets_Windows.zip\'92 from Google Drive. \
+2) Unzip the folder. \
+3) Double click \'91main.exe\'92 to launch the program. 
+\f0\b \
+\
+2. Mac\
+
+\f1\b0 1) Download \'91FuzzySheets_Mac.zip\'92 from Google Drive. \
+2) Unzip the folder. \
+3) Double click \'91main\'92 to launch the program. \
+You may see a security prompt. Go to 
+\f0\b System Preferences ->  Security & Privacy 
+\f1\b0 and allow the app. \
+\
+\'97\
+
+\f0\b First-Time Setup\
+\
+- 
+\f1\b0 The program will ask you to log into your Google Account to access the sheet. \
+- The authentication token is saved locally, so you only need to log in once. \
+\
+\'97\
+
+\f0\b Using the Program\
+
+\f1\b0 \
+1) Enter your Google Sheet URL or name. \
+2) Enter the sheet tab name (example: Sheet 1, Sheet 2)\
+3) Enter the name of the Column to Filter (ex: Column A)\
+4) Enter the search term. \
+5) Enter the similarity threshold (0-100)\
+	Note: Threshold = 0 means everything matches. Threshold = 100 means exact matches only. \
+6) Click \'91Run Filter\'92\
+\
+The results will appear in a new sheet called \'91Fuzzy_Match_Results_OUTPUT\'92 .\
+Progress and messages are shown in the log box. \
+\
+\
+
+\f0\b IMPORTANT: Existing output sheets in your personal Drive (ie: from previous times you run the program) will be deleted when you click \'91Run Filter\'92. Make sure to CHANGE THE FILE NAME of any output data you want to save. \
+\
+\'97\
+License\
+
+\f1\b0 MIT License - see \'91LICENSE.txt\'92. \
+
+\f0\b \
+}
