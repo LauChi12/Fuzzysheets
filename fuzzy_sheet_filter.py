@@ -171,10 +171,12 @@ def run_filter(sheet_id, worksheet_title, column_filter, target_term, threshold)
         #write the header first, then put in data
         #output_ws.update([output_data.columns.values.tolist()] + output_data.values.tolist())
 
-        #notify user in the UI log 
+        # write the CSV
         matches_found = len(output_data)
-
         if matches_found > 0:
+            output_file_name = os.path.expanduser("~/Desktop/fuzzy_match_results_output.csv"
+            output_data.to_csv(output_file_name, index=False)
+            #notify user in the UI log
             update_status(f"Success! Found {matches_found} matching records. Results saved to '{OUTPUT_WORKSHEET_TITLE}'.", 'green')
         else:
             update_status(f"Completed: No matching records found for '{target_term}' at threshold {threshold}.", 'orange')
