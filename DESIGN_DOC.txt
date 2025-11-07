@@ -1,0 +1,41 @@
+# DESIGN DOCUMENT: Fuzzysheets
+
+##Project Overview and Scope
+The goal of this application is to create a simple tool that allows the user to identify and isolate rows of a spreadsheet that have similar text strings in a particular column. This is designed to help with data cleanup for raw output files that record text information, particular text input blocks in a form, allowing users to more quickly identify and analyze their data. There are two versions: a locally stored application that reads .csv and .xlsx files, and a Google Sheets version. The CSV version is downloadable for public use, but the Google Sheets version is not available publicly. To test that version, please contact Lauren Chisholm to be added as a test user.  
+
+I used Python as the language for this application, and used the following core libraries to build the core logic and UI: Pandas, Tkinter, rapidfuzz. The Google Sheets version 'main' also includes the core library gspread to support Google Sheets API and OAuth2. 
+
+
+##Core Algorithm and Performance
+The main utility of this application is in its Fuzzy Matching algorithm and engine. I chose 'rapidfuzz' over 'fuzzywuzzy' for its speed. Rapidfuzz uses the Levenshtein distance algorithm to calculate a similarity ratio, which is then in turn transposed to a 'threshold' score. (.80 ratio = 80 threshold) The rows with values at or above the ratio are output in a new sheet (CSV version) or a new tab in the extant sheet (Google Sheets version). 
+
+However, I did sacrifice some sensitivity for speed in the fuzzy matching itself. Because rapidfuzz uses Optimal String Alignment and not a Damerau-Levenshtein distance algorithm, transpositions (teh vs. the) count as two transpositions and not one. Rapidfuzz does not support Damerau-Levenshtein, so I had to decide between speed and sensitivity. I know how large some spreadsheets can be, and after testing preliminary testing with fuzzywuzzy using a simple 80-row spreadsheet and waiting a rather long time, I realized quickness was necessary in this application, especially since the sensitivity of the fuzzy match can be changed in the UI. 
+
+This application uses the Pandas Dataframe as its data structure for all stages of processing. Pandas is a library that creates a set of rules for structured data, allowing efficient processing via vectorization. A major piece that made me decide to use pandas was when I realized that with pandas you do not have to build a looping structure to calculate the similarity ratio and determine if a row is at or above the threshold. That freed up a lot of processing time and space. 
+
+ 
+##Concurrency and UI Design
+I added the 'threading' module after deciding to build/implement a UI, and the first version of the UI crashed when I ran the program. I needed to somehow 'offload' the processing so the UI could stay functional while the background main work was happening (ie: writing a new file or connecting to the Google API). While it didn't actually affect the background processing (I think), the UI crashing would cause the user to think the whole process had not worked, and that the application wasn't functional. After some research and help from Gemini, I identified the 'threading' module would work to keep that from happening. 
+
+The UI is different in both the CSV and Google Sheets versions. For the CSV version, I altered the UI so that users could select a button and 'upload' the file they want to run Fuzzymatch on, rather than typing the file name and path. There is then a file type restriction block of code that adds a layer of protection against the system crashing if someone does not select a file or selects an unsupported file type. 
+
+The Google API version asks the user to copy and paste either the whole URL of the spreadsheet or the spreadsheet 'name' in the URL. Then the program strips the bulk of the URL(if part of the input) and uses that to connect to the Google API. 
+
+##API Integration
+The Google Sheets version uses the OAuth 2.0 Desktop application flow for authentication. When a user runs Fuzzysheets for the first time, a web browser pops up, requiring user consent to store an access token(short term for API calls) and a refresh token (long-term token used to obtain new access tokens). Oauth2client library is useful for this; it allows these tokens to be stored in a hidden file on the user's system '~/.gspread_token.json'. The function 'get_gspread_client()' automatically checks to see if the Access token is out of date. If it is, the locally stored refresh token requests a new access token. This all happens behind the scenes, and the user is not prompted to reauthorize the application. 
+
+That means that the user only grants permission to use the app once, allowing the user to efficiently use the application without needing to periodically log in. It also ensures that the user's credentials are protected. 
+
+
+## AI Assistance Disclaimer
+
+My project was developed with assistance from a large language model, specifically Gemini, for several key purposes: 
+
+* Code Review and Troubleshooting: I used Gemini to identify complex errors related to Tkinter threading model, and I used it as a second pair of eyes when adapting the Google API code to the Local CSV version. 
+* I consulted it with regards to best practices for concurrent programming, OAuth 2.0 Token persistence, and building a professional-looking file structure suitable for a portfolio piece. 
+* Documentation and Explanation: I used it to explain technical concepts as part of my decision making process (ie: using rapidfuzz over fuzzywuzzy). 
+
+Other major information sources(not exhaustive): https://developers.google.com/identity/protocols/oauth2, https://docs.github.com/en (I've never used Gihub before!), https://www.wikifunctions.org/,https://docs.python.org/3/library/index.html. 
+ 
+##Conclusion
+My goal in this project was to build a simple, efficient, and lightweight application for data cleaning and synthesis using fuzzy matching. This application is both efficient and secure and demonstrates a knowledge of engineering principles related to software development. The application is built around the Pandas data pipeline and rapidfuzz libraries, using efficient and responsive tools to build a lightweight application to process large datasets. The threading module creates a more seamless user experience by resolving concurrency issues. The OAuth 2.0 implementation in the Google Sheets version also demonstrates understanding of API integration and user security. Ultimately, Fuzzysheets is a simple and responsive solution to real-world data quality issues. I can't wait to use it in my enrollment work! 
