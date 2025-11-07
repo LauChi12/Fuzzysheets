@@ -30,54 +30,54 @@ Purpose/Reasoning: Many issues with data collected from text input sources (ex: 
 - Convert the distance to a similarity score (0-100).
 - Return all rows with scores above the threshold. 
 
-### Example:
-  - Search String:
-  - In-text String:
-  - Threshold: 
-  - Levenshtein Distance:
-  - Score Output:
-  - Result:
+#### Example:
+	Search String: "Main Ave"
+	In-text String: "Main Av"
+	Threshold: 80
+	Levenshtein Distance:85.71
+	Score Output:86
+	Result: PASS The in-text string would be output to the new sheet.
 
-Possible Improvements: Using the Damerau-Levenshtein distance algorithm would be more sensitive to common mispellings: ie.,adjacent letter swaps. The matching logic would be more accurate using that algorithm. 
+Possible Improvements: Using the Damerau-Levenshtein distance algorithm would be more sensitive to common mispellings: ie.,adjacent letter swaps. The matching logic would be more accurate using that algorithm. However, I'd have to either use the slower ``fuzzywuzzy`` instead of ``rapidfuzz`` or encode the algorithm in the program itself, which is resourse intensive. 
+
 
 ## Features
-- Input Spreadsheet URL or name
+- Select input file with a file search button
 - Specify the target column, search term, and similarity threshold (0-100)
 - Automatic deletion of previous results sheet, if any.
 - Runs in a separate thread to keep the UI responsive. 
 - Color-coded log for progress and errors
 
 ## How to Run
-### Windows
-- Download ‘FuzzySheets_Windows.zip’ from Google Drive. 
+### Windows(not out yet)
+- Download ``FuzzySheets_Windows.zip``. 
 - Unzip the folder.
-- Double click ‘main.exe’ to launch the program. 
+- Double click ``main.exe`` to launch the program. 
 
-### Mac
-- Download ‘FuzzySheets_Mac.zip’ from Google Drive.
+## #Mac
+- Download ``FuzzySheets_Mac.zip``.
 - Unzip the folder.
-- Double click ‘main’ to launch the program. 
+- Double click ``main`` to launch the program. 
 You may see a security prompt. Go to System Preferences ->  Security & Privacy and allow the app. 
 
 ## First-Time Setup
-- The program will ask you to log into your Google Account to access the sheet. 
-- The authentication token is saved locally, so you only need to log in once. 
+-
+-
 
 ## Using the Program
-- Enter your Google Sheet URL or name.
-- Enter the sheet tab name (example: Sheet 1, Sheet 2)
+- Click Search button to search for the input file.
 - Enter the name of the Column to Filter (ex: Column A)
 - Enter the search term.
 - Enter the similarity threshold (0-100)
 	Note: Threshold = 0 means everything matches. Threshold = 100 means exact matches only.
-- Click ‘Run Filter’
+- Click ``Run Filter``
 
-The results will appear in a new sheet called ‘Fuzzy_Match_Results_OUTPUT’ .
+The results will appear in a new sheet on your desktop called ``Fuzzy_Match_Results_OUTPUT``.
 Progress and messages are shown in the log box. 
 
 
-IMPORTANT: Existing output tabs in the sheet (ie: from previous times you run the program) will be deleted when you click ‘Run Filter’. Make sure to CHANGE THE NAME of any output data you want to save. 
+![Warning Sign](https://www.shareicon.net/data/16x16/2016/05/28/572061_warning_32x32.png)
+***IMPORTANT:*** Existing output tabs in the sheet (ie: from previous times you run the program) will be deleted when you click ``Run Filter``. Make sure to **CHANGE THE NAME/FILE LOCATION** of any output data you want to save. ![Warning Sign](https://www.shareicon.net/data/16x16/2016/05/28/572061_warning_32x32.png)
 
-—
-License
-MIT License - see ‘LICENSE.txt’. 
+## License
+Mit License - see ``LICENSE.txt``
