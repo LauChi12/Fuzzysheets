@@ -212,5 +212,6 @@ token.json
 __pycache__/
 client_secrets.json
 *.pyc
-__pycache__/
-__pycache__/
+*.dmg
+.DS_Store
+
