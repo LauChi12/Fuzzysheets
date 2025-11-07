@@ -23,7 +23,9 @@ This project is a response to a common issue in data collection at my workplace:
 
 ## Fuzzy Matching Logic
 Algorithm used: Levenshtein Distance (via Python/Rapidfuzz)
-Purpose/Reasoning: Many issues with data collected from text input sources (ex: addresses) stem from misplaced punctuation (Rd. vs Rd) , slight spelling errors (Cypriss vs. Cypress) , capitalization differences (RD vs. rd vs. Rd), and nomenclature differences (Drive vs Dr). I decided a fuzzy matching logic would be a good way to identify similar terms that mean the same thing. I chose to implement tools from the library 'rapidfuzz' for ease and speed of processing and automatic data cleanup(removing capitalization and punctuation).  
+Purpose/Reasoning: Many issues with data collected from text input sources (ex: addresses) stem from misplaced punctuation (Rd. vs Rd) , slight spelling errors (Cypriss vs. Cypress) , capitalization differences (RD vs. rd vs. Rd), and nomenclature differences (Drive vs Dr). 
+
+I decided a fuzzy matching logic would be a good way to identify similar terms that mean the same thing. I chose to implement tools from the library ``rapidfuzz`` for ease and speed of processing and automatic data cleanup(removing capitalization and punctuation).  
 
 ### Process: 
 - Normalize input strings (lowercase, remove punctuation). 
@@ -55,7 +57,7 @@ Possible Improvements: Using the Damerau-Levenshtein distance algorithm would be
 - Unzip the folder.
 - Double click ``main.exe`` to launch the program. 
 
-## #Mac
+### Mac
 - Download ``FuzzySheets_Mac.zip``.
 - Unzip the folder.
 - Double click ``main`` to launch the program. 
