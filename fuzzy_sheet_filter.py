@@ -8,6 +8,7 @@ from tkinter import messagebox, scrolledtext, filedialog #new for CSV version
 import threading
 import os
 import sys
+from pathlib import Path  # trying to make sure it runs
 
 
 # --- 0. CONFIGURATION/AUTHENTICATION ---
@@ -71,7 +72,8 @@ def run_filter_threaded():
     #get the values from UI input fields
     try:
         sheet_id = entry_sheet_id.get().strip()
-        worksheet_title = entry_worksheet_title.get().strip()
+        #worksheet_title = entry_worksheet_title.get().strip()
+        worksheet_title = "LocalFile" 
         column_filter = entry_column_filter.get().strip()
         target_term = entry_target_term.get().strip()
         threshold = int(entry_threshold.get())
@@ -174,10 +176,13 @@ def run_filter(sheet_id, worksheet_title, column_filter, target_term, threshold)
         # write the CSV
         matches_found = len(output_data)
         if matches_found > 0:
-            output_file_name = os.path.expanduser("~/Desktop/fuzzy_match_results_output.csv"
+            #use path.home to find document folder and check if it exists
+            documents_dir = Path.home() / "Documents"
+            output_file_name = documents_dir / "fuzzy_match_results_output.csv"
+            documents_dir.mkdir(parents=True, exist_ok=True)
             output_data.to_csv(output_file_name, index=False)
             #notify user in the UI log
-            update_status(f"Success! Found {matches_found} matching records. Results saved to '{OUTPUT_WORKSHEET_TITLE}'.", 'green')
+            update_status(f"Success! Found {matches_found} matching records. Results saved to your Documents folder under:'{OUTPUT_WORKSHEET_TITLE}'.", 'green')
         else:
             update_status(f"Completed: No matching records found for '{target_term}' at threshold {threshold}.", 'orange')
 
